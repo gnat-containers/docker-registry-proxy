@@ -1,6 +1,6 @@
 # We start from my nginx fork which includes the proxy-connect module from tEngine
 # Source is available at https://github.com/rpardini/nginx-proxy-connect-stable-alpine
-FROM rpardini/nginx-proxy-connect-stable-alpine:nginx-1.14.0-alpine-3.8
+FROM joc98/nginx-proxy-connect-stable-alpine:nginx-1.14.0-alpine-3.8
 
 # Add openssl, bash and ca-certificates, then clean apk cache -- yeah complain all you want.
 # Also added deps for mitmproxy.
