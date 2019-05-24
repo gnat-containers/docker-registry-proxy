@@ -17,12 +17,14 @@ RUN mitmproxy --version
 # Create the cache directory and CA directory
 RUN mkdir -p /docker_mirror_cache /ca
 
-# Expose it as a volume, so cache can be kept external to the Docker image
-VOLUME /docker_mirror_cache
+# Expose it as a volume, so cache can be kept external to the Docker image.
+# Expose it by command can be better.
+# VOLUME /docker_mirror_cache
 
 # Expose /ca as a volume. Users are supposed to volume mount this, as to preserve it across restarts.
-# Actually, its required; if not, then docker clients will reject the CA certificate when the proxy is run the second time
-VOLUME /ca
+# Actually, its required; if not, then docker clients will reject the CA certificate when the proxy is run the second time.
+# Expose it by command can be better.
+# VOLUME /ca
 
 # Add our configuration
 ADD nginx.conf /etc/nginx/nginx.conf
