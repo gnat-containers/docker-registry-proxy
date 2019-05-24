@@ -6,7 +6,7 @@ A caching proxy for Docker; allows centralised management of registries and thei
 
 ### What?
 
-Created as an evolution and simplification of [docker-caching-proxy-multiple-private](https://github.com/rpardini/docker-caching-proxy-multiple-private) 
+Created as an evolution and simplification of [docker-caching-proxy-multiple-private](https://github.com/joc98/docker-caching-proxy-multiple-private) 
 using the `HTTPS_PROXY` mechanism and injected CA root certificates instead of `/etc/hosts` hacks and `--insecure-registry` 
 
 Main feature is Docker layer/image caching, even from S3, Google Storage, etc. As a bonus it allows for centralized management of Docker registry credentials. 
@@ -35,7 +35,7 @@ docker run --rm --name docker_registry_proxy -it \
        -v $(pwd)/docker_mirror_certs:/ca \
        -e REGISTRIES="k8s.gcr.io gcr.io quay.io your.own.registry another.public.registry" \
        -e AUTH_REGISTRIES="auth.docker.io:dockerhub_username:dockerhub_password your.own.registry:username:password" \
-       rpardini/docker-registry-proxy:0.2.4
+       joc98/docker-registry-proxy:0.2.4
 ```
 
 Let's say you did this on host `192.168.66.72`, you can then `curl http://192.168.66.72:3128/ca.crt` and get the proxy CA certificate.
