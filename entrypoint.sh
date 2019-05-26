@@ -27,6 +27,12 @@ for ONEREGISTRYIN in docker.caching.proxy.internal registry-1.docker.io auth.doc
     echo "${ONEREGISTRY} 127.0.0.1:443;" >> /etc/nginx/docker.intercept.map
 done
 
+# Mirrors map, which are the docker registry mirrors for the registry configed in REGISTRIES
+echo -n "" > /etc/nginx/docker.mirrors.map
+for ONEPAIR in ${MIRRORS_REGISTRIES}; do
+    echo "${ONEPAIR}" >> /etc/nginx/docker.mirrors.map
+done
+
 # Clean the list and generate certificates.
 export ALLDOMAINS=${ALLDOMAINS:1} # remove the first comma and export
 /create_ca_cert.sh # This uses ALLDOMAINS to generate the certificates.
