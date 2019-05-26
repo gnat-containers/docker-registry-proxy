@@ -37,6 +37,10 @@ RUN chmod +x /create_ca_cert.sh /entrypoint.sh
 # Clients should only use 3128, not anything else.
 EXPOSE 3128
 
+# Expose 80 and 443 for debugging purpose.
+EXPOSE 80
+EXPOSE 443
+
 # In debug mode, 8081 exposes the mitmweb interface.
 EXPOSE 8081
 
