@@ -5,7 +5,7 @@ FROM joc98/nginx-proxy-connect-stable-alpine:nginx-1.14.0-alpine-3.8
 # Add openssl, bash and ca-certificates, then clean apk cache -- yeah complain all you want.
 # Also added deps for mitmproxy.
 RUN apk add --update openssl bash ca-certificates su-exec git g++ libffi libffi-dev libstdc++ openssl openssl-dev python3 python3-dev
-RUN LDFLAGS=-L/lib pip3 install mitmproxy
+RUN LDFLAGS=-L/lib pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple  mitmproxy
 RUN apk del --purge git g++ libffi-dev openssl-dev python3-dev && rm -rf /var/cache/apk/* && rm -rf ~/.cache/pip
 
 # Required for mitmproxy
@@ -17,14 +17,12 @@ RUN mitmproxy --version
 # Create the cache directory and CA directory
 RUN mkdir -p /docker_mirror_cache /ca
 
-# Expose it as a volume, so cache can be kept external to the Docker image.
-# Expose it by command can be better.
-# VOLUME /docker_mirror_cache
+# Expose it as a volume, so cache can be kept external to the Docker image
+VOLUME /docker_mirror_cache
 
 # Expose /ca as a volume. Users are supposed to volume mount this, as to preserve it across restarts.
-# Actually, its required; if not, then docker clients will reject the CA certificate when the proxy is run the second time.
-# Expose it by command can be better.
-# VOLUME /ca
+# Actually, its required; if not, then docker clients will reject the CA certificate when the proxy is run the second time
+VOLUME /ca
 
 # Add our configuration
 ADD nginx.conf /etc/nginx/nginx.conf
@@ -37,18 +35,16 @@ RUN chmod +x /create_ca_cert.sh /entrypoint.sh
 # Clients should only use 3128, not anything else.
 EXPOSE 3128
 
-# Expose 80 and 443 for debugging purpose.
-EXPOSE 80
-EXPOSE 443
-
 # In debug mode, 8081 exposes the mitmweb interface.
 EXPOSE 8081
 
 ## Default envs.
 # A space delimited list of registries we should proxy and cache; this is in addition to the central DockerHub.
 ENV REGISTRIES="k8s.gcr.io gcr.io quay.io"
+# Default proxy destination
+ENV PROXYDEST="127.0.0.1:443"
 # A space delimited list of registry:user:password to inject authentication for
-ENV AUTH_REGISTRIES="some.authenticated.registry:oneuser:onepassword another.registry:user:password"
+ENV AUTH_REGISTRIES="some.authenticated.registry@oneuser:onepassword another.registry@user:password"
 # Should we verify upstream's certificates? Default to true.
 ENV VERIFY_SSL="true"
 # Enable debugging mode; this inserts mitmproxy/mitmweb between the CONNECT proxy and the caching layer
