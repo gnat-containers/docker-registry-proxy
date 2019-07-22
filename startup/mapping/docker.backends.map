@@ -1,0 +1,6 @@
+registry.fireball <registryhost>:<registryport>;
+k8s.gcr.io <registryhost>:<registryport>;
+gcr.io <registryhost>:<registryport>;
+quay.io <registryhost>:<registryport>;
+registry-1.docker.io <registryhost>:<registryport>;
+docker.io <registryhost>:<registryport>;

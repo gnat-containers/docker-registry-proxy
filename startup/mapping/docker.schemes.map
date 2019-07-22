@@ -1,0 +1,7 @@
+registry.fireball http;
+gcr.io http;
+k8s.gcr.io http;
+quay.io http;
+registry-elder.fireball http;
+registry-1.docker.io: http;
+docker.io http;
